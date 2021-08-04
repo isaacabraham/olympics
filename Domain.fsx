@@ -1,10 +1,11 @@
 type Sport = Sport of string
 type Discipline = Discipline of string
 type Event = Event of string
-type FullName = FullName of string
+type FullName = { FirstName : string option; LastName : string }
 type Country = Country of string
 type Gender = Male | Female
 type Season = Summer | Winter
+type City = City of string
 
 type Athlete =
     {
@@ -16,7 +17,7 @@ type Athlete =
 type GamesIdentifier =
     {
         Season : Season
-        City : string
+        City : City
         Year : int
     }
 
@@ -29,18 +30,10 @@ type EventCategory =
 
 type Medal = Gold | Silver | Bronze
 
-type OlympicResult =
+type OlympicScore =
     {
         Id : GamesIdentifier
         EventCategory : EventCategory
         Athlete : Athlete
         Medal : Medal
     }
-
-#r "nuget:FSharp.Data"
-
-open FSharp.Data
-
-let [<Literal>] Sample = __SOURCE_DIRECTORY__ + "/summer.csv"
-type Summer = CsvProvider<Sample>
-Summer.GetSample().Rows |> Seq.toArray
