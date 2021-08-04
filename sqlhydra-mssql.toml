@@ -1,0 +1,7 @@
+[general]
+connection = "Server=localhost\\sqlexpress;Initial Catalog=Olympics;Integrated Security=true"
+output = "Olympics.Dal.fs"
+namespace = "DataAccess"
+cli_mutable = false
+[readers]
+reader_type = "IDataReader"

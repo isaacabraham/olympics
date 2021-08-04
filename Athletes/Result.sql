@@ -1,0 +1,8 @@
+CREATE TABLE [dbo].[Result]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [GameId] UNIQUEIDENTIFIER NOT NULL, 
+    [AthleteId] NCHAR(10) NOT NULL, 
+    [EventId] NCHAR(10) NOT NULL, 
+    [Medal] CHAR NOT NULL
+)

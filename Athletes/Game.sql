@@ -1,0 +1,7 @@
+CREATE TABLE [dbo].[Game]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Season] CHAR(1) NOT NULL, 
+    [City] NVARCHAR(50) NOT NULL, 
+    [Year] INT NOT NULL
+)

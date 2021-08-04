@@ -1,0 +1,7 @@
+CREATE TABLE [dbo].[Event]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Sport] NVARCHAR(50) NOT NULL, 
+    [Discipline] NVARCHAR(50) NOT NULL, 
+    [Event] NVARCHAR(100) NOT NULL
+)
