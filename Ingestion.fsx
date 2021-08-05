@@ -170,6 +170,18 @@ successes
 |> whoWon (City "London") (2012) (Event "Hockey") Male
 
 
+
+// Structure not clearly defined - exploratory phase
+// Overkill - not worth the effort at this point
+
+let results =
+    successes
+    |> List.map (fun r -> {| Name = r.Athlete.Name; Event = r.EventCategory.Event; Id = r.Id; Medal = r.Medal |})
+
+
+
+
+
 let crossJoinResult =
     let olympicsGames =
         [ "Lake Placid", 1932
@@ -192,11 +204,61 @@ let crossJoinResult =
 
 let successesForCountry =
     successes
-    |> List.map(fun r -> {| Id = r.Id; EventCategory = r.EventCategory; Medal = r.Medal |})
+    |> List.choose(fun r -> r.Athlete.Country |> Option.map (fun (Country c) -> {| Id = r.Id; Country = c; EventCategory = r.EventCategory; Medal = r.Medal |}))
     |> List.distinct
+    |> List.sortBy (fun r -> r.Country, r.Id.Year)
 
-successes
-|>
+#r "nuget: Plotly.NET, 2.0.0-preview.6"
+open Plotly.NET
+
+// Simple example - calculate over last n years
+let calculateData currentYear age =
+    successesForCountry
+    |> List.filter (fun r -> r.Medal = Gold)
+    |> List.filter (fun r -> currentYear - r.Id.Year > age)
+    |> List.countBy (fun r -> r.Country)
+    |> List.sortByDescending snd
+    |> List.take 10
+
+calculateData 2021 20
+|> Chart.Column
+|> Chart.Show
+
+// More complex example - get running totals to see progress
+
+/// This function will count up rows denoted by year and present running totals for each year
+let runningTotal rowsForCountry =
+    let byCountry = rowsForCountry |> List.countBy id
+
+    byCountry
+    |> List.scan (fun count (year, rows) -> count + rows) 0
+    |> List.skip 1
+    |> List.zip byCountry
+    |> List.map(fun (a, b) -> {| Year = a |> fst |> snd; Medals = b |})
+
+// This groups up by country and then gets running totals
+let runningTotals =
+    successesForCountry
+    |> List.map(fun r -> r.Country, r.Id.Year)
+    |> List.groupBy fst
+    |> List.map (fun (key, rows) -> key, rows |> runningTotal)
+
+// Get top ten based on total medals over all time
+let topTenCountries =
+    runningTotals
+    |> List.sortByDescending(fun (_, years) -> years |> List.last |> fun x -> x.Medals)
+    |> List.take 10
+
+// Create a line series for each country
+let series = [
+    for country, rows in topTenCountries do
+        Chart.Line (rows |> List.map(fun r -> string r.Year, r.Medals), country)
+]
+
+// Combine all series into a single chart
+series
+|> Chart.Combine
+|> Chart.Show
 
 //let topTenCountries = ??
     //let scoreMedal = ??
@@ -219,8 +281,6 @@ successes
 
 *)
 
-fsi.AddPrinter<System.DateTime>(fun d -> d.ToString())
-fsi.AddPrinter<GamesIdentifier>(fun d -> d.City.ToString() + d.Season.ToString())
 
 
 
