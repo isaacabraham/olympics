@@ -260,37 +260,36 @@ series
 |> Chart.Combine
 |> Chart.Show
 
-//let topTenCountries = ??
-    //let scoreMedal = ??
+// //let topTenCountries = ??
+//     //let scoreMedal = ??
 
-(*
+// (*
 
-    1   COUNTRY     SCORE
-    2   COUNTRY     SCORE
-
-
-//let bestEventForCountries
-
-    COUNTRY     EVENT
-    COUNTRY     EVENT
-
-//athletes per year by gender
-
-    YEAR    # MALE EVENTS  # FEMALE EVENTS
-    YEAR    # MALE EVENTS  # FEMALE EVENTS
-
-*)
+//     1   COUNTRY     SCORE
+//     2   COUNTRY     SCORE
 
 
+// //let bestEventForCountries
+
+//     COUNTRY     EVENT
+//     COUNTRY     EVENT
+
+// //athletes per year by gender
+
+//     YEAR    # MALE EVENTS  # FEMALE EVENTS
+//     YEAR    # MALE EVENTS  # FEMALE EVENTS
+
+// *)
 
 
 
-(*
 
-CSV -> Rich Domain
-SQL -> Rich Domain
 
-*)
+// (*
 
+// CSV -> Rich Domain
+// SQL -> Rich Domain
+
+// *)
 
 
